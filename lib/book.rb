@@ -22,4 +22,20 @@ class Book
     @@all
   end
 
+  def wrap_blurb(width=78) #code from other projects to make blurbs line wrap; handle unicode replacement elsewhere
+  lines = []
+  line = ""
+  @blurb.split(/\s+/).each do |word|
+    if line.size + word.size >= width
+      lines << line
+      line = word
+    elsif line.empty?
+      line = word
+    else
+      line << " " << word
+    end
+  end
+  lines << line if line
+  end
+
 end

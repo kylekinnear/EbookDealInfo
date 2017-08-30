@@ -14,17 +14,46 @@ class Controller
     puts "Getting the latest deals"
     puts "-----------------------------------------"
     DealScraper.new #call DealScraper, and through it instantiate books and call info_scraper on the books
-    self.menu #main menu
+    self.list_books #main menu
   end
 
-  def menu
+  def list_books
     #the main menu
     puts "A list of the latest deals:"
-    Book.all.each_with_index(1) do |book, index|
+    Book.all.each_with_index(1) do |book, index| #make this ignore books that are completable = false
       puts "#{index}. #{book.title} - #{book.author} - #{book.genre}"
+    end
+
+    self.interact
     #uses formatter to format the list
     #allows user to select an item for more information or exit the program
     #loop to handle odd inputs
   end
+
+  def interact
+    input = nil
+    while %w[e exit q quit n no].include?(input) == false
+      puts "Enter the number of the book you'd like more information about."
+      puts "You can type list to list the books again or type quit to leave."
+      input = gets.strip.downcase
+
+      if input.to_i > 0
+        chosen_book = Book.all[input.to_i-1]
+        puts "#{chosen_book.title}"
+        puts "#{chosen_book.series}" if chosen_book.series.size > 0
+        puts "By #{chosen_book.author}"
+        if chosen_book.price > 0
+          puts "#{chosen_book.price}"
+        else
+          puts "Couldn't find a price"
+        end
+        if chosen_book.genre_two.include?(chosen_book.genre_one)
+          puts "Shelved as #{chosen_book.genre_two}"
+        else
+          puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
+        end
+        puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book_rating}"
+        puts "#{chosen_book.blurb}"
+
 
 end
