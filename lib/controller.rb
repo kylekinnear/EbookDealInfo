@@ -5,7 +5,7 @@ class Controller
 
   def call
     #functionality?
-    self.welcome #call the intro message
+    welcome #call the intro message
   end
 
   def welcome
@@ -14,7 +14,7 @@ class Controller
     puts "Getting the latest deals"
     puts "-----------------------------------------"
     DealScraper.new #call DealScraper, and through it instantiate books and call info_scraper on the books
-    self.list_books #main menu
+    list_books #main menu
   end
 
   def list_books
@@ -24,10 +24,8 @@ class Controller
       puts "#{index}. #{book.title} - #{book.author} - #{book.genre}"
     end
 
-    self.interact
-    #uses formatter to format the list
-    #allows user to select an item for more information or exit the program
-    #loop to handle odd inputs
+    interact
+    exeunt
   end
 
   def interact
@@ -54,6 +52,17 @@ class Controller
         end
         puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book_rating}"
         puts "#{chosen_book.blurb}"
+      elsif input == "list"
+        list_books
+      else
+        puts "Sorry, I couldn't understand that. Please enter a number, list, or quit."
+      end
+    end
+  end
+
+  def exeunt
+    puts "Check back later for more ebook deals."
+  end
 
 
 end

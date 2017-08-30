@@ -17,7 +17,8 @@ class InfoScraper
     book.rating = item_page.css("span.average").text #average rating
     book.rates = item_page.css("span.votes.value-title").text.strip #number of ratings
     #blurb needs work
-    book.blurb = item_page.xpath('//span[starts-with(@id, "freeText")]')[1].text.gsub(/\s+/, " ") #grab the blurb
+    book.blurb = item_page.xpath('//span[starts-with(@id, "freeText")]')[1].text#.gsub(/\s+/, " ") #grab the blurb
+    book.wrap_blurb #line wrap for our blurb
     #we will scrape the top two genre entries, but when we want to check if one is a more specific form of the other
     genre_one = item_page.search("div.bigBoxContent div.elementList div.left")[0].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil} # turn the first genre into a stripped array of actual content
     book.genre_one = ""
