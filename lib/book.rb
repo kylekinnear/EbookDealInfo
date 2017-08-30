@@ -2,7 +2,7 @@
 require "EbookDealInfo"
 
 class Book
-  attr_accessor :author, :title, :price, :genre, :series, :goodreads_rating, :goodreads_rates, :blurb
+  attr_accessor :author, :title, :price, :genre, :series, :goodreads_rating, :goodreads_rates, :blurb, :completable
   @@all = [] #collection to push all new books into
 
   def initialize(author, title, price)
@@ -10,6 +10,7 @@ class Book
     @author = author
     @title = title
     @price = price
+    @completable = true
     InfoScraper.new.info_scrape(self)
   end
 
