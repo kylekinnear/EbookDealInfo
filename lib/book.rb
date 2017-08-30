@@ -10,6 +10,7 @@ class Book
     @author = author
     @title = title
     @price = price
+    InfoScraper.new.info_scrape(self)
   end
 
   def self.create(author, title, price) #deals scrape will pass in hash with title, author, and price
