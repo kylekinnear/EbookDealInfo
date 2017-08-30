@@ -12,12 +12,12 @@ class InfoScraper
     else #instead of a raising a nobook error that will break the looping, let's flag the book as incomplete and not display it at the end
       book.completable = false
     end
-    book.author = item_page.css("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
+    book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
     #how do we handle no_series, and can we tidy the code?
-    book.title = item_page.css("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
-    book.series = ((item_page.css("h1#bookTitle.bookTitle :first-child").text.strip).sub "(", "").sub ")", "" #provides series
-    book.rating = item_page.css("span.average").text #average rating
-    book.rates = item_page.css("span.votes.value-title").text.strip #number of ratings
+    book.title = item_page.search("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
+    book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub("(", "").gsub(")", "") #provides series
+    book.rating = item_page.search("span.average").text #average rating
+    book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
     #blurb needs work
     book.blurb = item_page.xpath('//span[starts-with(@id, "freeText")]')[1].text#.gsub(/\s+/, " ") #grab the blurb
     book.wrap_blurb #line wrap for our blurb
