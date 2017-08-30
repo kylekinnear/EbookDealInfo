@@ -11,6 +11,9 @@ class DealScraper
           #semicolon separator slicing
         else
           #by slicing
+          author = deals.search("div.link").first.search("p.title").text.split("by").first.strip
+          title = deals.search("div.link").first.search("p.title").text.split("by")[1].slice(/\A[^(]+/).strip
+          price = deals.search("div.link").first.search("p.title").text.slice(/[$]\d+[.]\d+/)
         end
       end
       #reject the entry if this is blank as a failsafe
