@@ -1,11 +1,11 @@
 #this is the goodreads scraper
-require "EbookDealInfo"
+require_relative "EbookDealInfo"
 
 class InfoScraper
 
   def info_scrape(book) #for each instance of book in the class collection, go get blurb, series, gr rating/rates and add them to that instance; also author to deal with last name only from scrape?
-    search_string = "#{book.author} #{book.title}".gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
-          #presumably handles multiple authors poorly
+    search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
+          #should remove anything joining multiple authors ("&", ",") that would break the search
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books")) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
       item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}").read)
@@ -14,6 +14,7 @@ class InfoScraper
     end
     book.author = item_page.css("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
     #how do we handle no_series, and can we tidy the code?
+    book.title = item_page.css("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
     book.series = ((item_page.css("h1#bookTitle.bookTitle :first-child").text.strip).sub "(", "").sub ")", "" #provides series
     book.rating = item_page.css("span.average").text #average rating
     book.rates = item_page.css("span.votes.value-title").text.strip #number of ratings

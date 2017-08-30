@@ -1,5 +1,5 @@
 #this class is called by the cli and handles outputs, menus
-require "EbookDealInfo"
+require_relative "EbookDealInfo"
 
 class Controller
 

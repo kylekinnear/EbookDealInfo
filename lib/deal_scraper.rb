@@ -1,5 +1,5 @@
 #this class grabs the daily deals from reddit /r/ebookdeals
-require "EbookDealInfo"
+require_relative "EbookDealInfo"
 
 class DealScraper
 

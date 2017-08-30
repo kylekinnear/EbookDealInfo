@@ -1,5 +1,5 @@
 #this class holds the data for each book
-require "EbookDealInfo"
+require_relative "EbookDealInfo"
 
 class Book
   attr_accessor :author, :title, :price, :genre_one, :genre_two, :series, :rating, :rates, :blurb, :completable
