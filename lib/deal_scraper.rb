@@ -13,12 +13,13 @@ class DealScraper
           price = post.seach("p.title").text.split(";")[2].strip #can't handle free books
           Book.create(author, title, price)
         else #for posts formatted "~Title~ by ~author~ (~Price~)"
-          author = post.search("p.title").text.split("by").first.strip
-          title = post.search("p.title").text.split("by")[1].slice(/\A[^(]+/).strip
+          author = post.search("p.title").text.split("by")[1].slice(/\A[^(,]+/).strip
+          title = post.search("p.title").text.split("by").first.gsub(/\W+\z/, "").strip
           price = post.search("p.title").text.slice(/[$]\d+[.]\d+/).strip #can't handle free books
           Book.create(author, title, price)
         end
       end
+    end
   end
 
 end
