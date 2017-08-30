@@ -6,9 +6,9 @@ class InfoScraper
   def info_scrape(book) #for each instance of book in the class collection, go get blurb, series, gr rating/rates and add them to that instance; also author to deal with last name only from scrape?
     search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
           #should remove anything joining multiple authors ("&", ",") that would break the search
-    search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books")) #uses the search string to pull an item's goodreads page
+    search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
-      item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}").read)
+      item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}",'User-Agent' => 'Ruby').read)
     else #instead of a raising a nobook error that will break the looping, let's flag the book as incomplete and not display it at the end
       book.completable = false
     end
