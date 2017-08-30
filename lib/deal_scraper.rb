@@ -11,26 +11,14 @@ class DealScraper
           author = post.seach("p.title").text.split(";")[0].strip
           title = post.seach("p.title").text.split(";")[1].strip
           price = post.seach("p.title").text.split(";")[2].strip
+          Book.create(author, title, price)
         else #for posts formatted "~Title~ by ~author~ (~Price~)"
           author = post.search("p.title").text.split("by").first.strip
           title = post.search("p.title").text.split("by")[1].slice(/\A[^(]+/).strip
           price = post.search("p.title").text.slice(/[$]\d+[.]\d+/).strip
+          Book.create(author, title, price)
         end
       end
-      #reject the entry if this is blank as a failsafe
-      #figure out which format this post uses
-      #slice the string appropriately
   end
 
 end
-
-
-
-
-"div#siteTable .sitetable linklisting" #wrapper
-"div .class id-t3 (even || odd) link"#each item on page
-"p.title" within "div.top-matter" within "div.entry unvoted" #individual item line
-        #breaks down to
-          #
-          #or
-          #~Author~; ~Title; ~Price~
