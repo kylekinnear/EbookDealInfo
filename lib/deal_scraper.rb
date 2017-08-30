@@ -7,13 +7,14 @@ class DealScraper
     deals = Nokogiri::HTML(open("https://www.reddit.com/r/ebookdeals/new/"))
     deals.search("div.link").each do |post|
       if post.search("p.title").text.size > 0
-        if post.search("p.title").text.include?(";")
-          #semicolon separator slicing
-        else
-          #by slicing
-          author = deals.search("div.link").first.search("p.title").text.split("by").first.strip
-          title = deals.search("div.link").first.search("p.title").text.split("by")[1].slice(/\A[^(]+/).strip
-          price = deals.search("div.link").first.search("p.title").text.slice(/[$]\d+[.]\d+/)
+        if post.search("p.title").text.include?(";") #for posts formatted "#~Author~; ~Title; ~Price~"
+          author = post.seach("p.title").text.split(";")[0].strip
+          title = post.seach("p.title").text.split(";")[1].strip
+          price = post.seach("p.title").text.split(";")[2].strip
+        else #for posts formatted "~Title~ by ~author~ (~Price~)"
+          author = post.search("p.title").text.split("by").first.strip
+          title = post.search("p.title").text.split("by")[1].slice(/\A[^(]+/).strip
+          price = post.search("p.title").text.slice(/[$]\d+[.]\d+/).strip
         end
       end
       #reject the entry if this is blank as a failsafe
@@ -30,6 +31,6 @@ end
 "div .class id-t3 (even || odd) link"#each item on page
 "p.title" within "div.top-matter" within "div.entry unvoted" #individual item line
         #breaks down to
-          #~Title~ by ~author~ (~Price~)
+          #
           #or
           #~Author~; ~Title; ~Price~
