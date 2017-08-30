@@ -1,4 +1,5 @@
 #this class grabs the daily deals from amazon
+require "EbookDealInfo"
 
 class DealScraper
 

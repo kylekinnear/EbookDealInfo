@@ -1,4 +1,5 @@
 #this class formats the text for nice output
+require "EbookDealInfo"
 
 class Formatter
 

@@ -1,5 +1,5 @@
 #this class holds the data for each book
-#requirements?
+require "EbookDealInfo"
 
 class Book
   attr_accessor :title, :author, :genre, :series, :amz_rating, :amz_rates, :goodreads_rating, :goodreads_rates, :blurb, :price

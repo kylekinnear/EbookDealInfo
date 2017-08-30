@@ -1,4 +1,5 @@
 #this is the goodreads scraper
+require "EbookDealInfo"
 
 class InfoScraper
 
