@@ -13,7 +13,7 @@ class Controller
     puts "Welcome to the Ebook Recent Deal Info Getter"
     puts "Getting the latest deals"
     puts "-----------------------------------------"
-    DealScraper.new #call DealScraper, and through it instantiate books and call info_scraper on the books
+    DealScraper.new.scrape #call DealScraper, and through it instantiate books and call info_scraper on the books
     list_books #main menu
   end
 

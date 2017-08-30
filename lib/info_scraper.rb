@@ -4,7 +4,7 @@ require_relative "EbookDealInfo"
 class InfoScraper
 
   def info_scrape(book) #for each instance of book in the class collection, go get blurb, series, gr rating/rates and add them to that instance; also author to deal with last name only from scrape?
-    search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
+    search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\A|\s)\S\s/,"").gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
           #should remove anything joining multiple authors ("&", ",") that would break the search
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
@@ -15,7 +15,7 @@ class InfoScraper
     book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
     #how do we handle no_series, and can we tidy the code?
     book.title = item_page.search("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
-    book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub("(", "").gsub(")", "") #provides series
+    book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub(/[()]/, "") #provides series
     book.rating = item_page.search("span.average").text #average rating
     book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
     #blurb needs work
