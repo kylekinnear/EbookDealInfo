@@ -2,7 +2,7 @@
 require "EbookDealInfo"
 
 class Book
-  attr_accessor :author, :title, :price, :genre, :series, :goodreads_rating, :goodreads_rates, :blurb, :completable
+  attr_accessor :author, :title, :price, :genre_one, :genre_two, :series, :rating, :rates, :blurb, :completable
   @@all = [] #collection to push all new books into
 
   def initialize(author, title, price)
