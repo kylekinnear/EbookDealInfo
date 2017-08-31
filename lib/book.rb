@@ -36,6 +36,7 @@ class Book
     end
   end
   lines << line if line
+  return (lines.join "\n")
   end
 
 end
