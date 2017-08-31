@@ -8,7 +8,8 @@ class InfoScraper
           #should remove anything joining multiple authors ("&", ",") that would break the search
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
-      item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}",'User-Agent' => 'Ruby').read)
+      determinant = search_page.css("span.minirating").map.with_index {|i,index| [index, i.text.strip.slice(/\s(\d|,)+/).strip.gsub(",","").to_i]}.sort! {|x,y| x[1].to_i <=> y[1].to_i}.last #the search result with the most rates (and presumably most legitimate) is an array [result_index, #rates]
+      item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a.bookTitle")[determinant[0]].attribute("href").value}",'User-Agent' => 'Ruby').read)
       book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
       #how do we handle no_series, and can we tidy the code?
       book.title = item_page.search("h1#bookTitle.bookTitle").text.strip #goodreads provides better titles

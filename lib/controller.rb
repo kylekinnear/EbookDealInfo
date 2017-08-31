@@ -20,6 +20,7 @@ class Controller
   def list_books
     #the main menu
     puts "A list of the latest deals:"
+    puts "#{Book.all.detect {|i| i.completable == false}.size} book(s) failed to load. Probably a spelling or selector error."
     Book.all.reject {|book| book.completable == false}.each_with_index do |book, index| #make this ignore books that are completable = false
       puts "#{index+1}. #{book.title} - #{book.author} - #{book.genre_one}"
     end
@@ -40,8 +41,8 @@ class Controller
         puts "#{chosen_book.title}"
         puts "#{chosen_book.series}" if chosen_book.series.size > 0
         puts "By #{chosen_book.author}"
-        if chosen_book.price > 0
-          puts "#{chosen_book.price}"
+        if chosen_book.price.size > 0
+          puts "Price: #{chosen_book.price}"
         else
           puts "Couldn't find a price"
         end
