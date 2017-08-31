@@ -47,11 +47,13 @@ class Controller
         end
         if chosen_book.genre_two.include?(chosen_book.genre_one)
           puts "Shelved as #{chosen_book.genre_two}"
+        elsif chosen_book.genre_one == "No genre listed"
+          puts "This book doesn't have a genre listing"
         else
           puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
         end
         puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book_rating}"
-        puts "#{chosen_book.blurb}"
+        puts "#{chosen_book.blurb.wrap_blurb}" #line wrap our blurb
       elsif input == "list"
         list_books
       else
