@@ -9,25 +9,25 @@ class InfoScraper
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
       item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}",'User-Agent' => 'Ruby').read)
+      book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
+      #how do we handle no_series, and can we tidy the code?
+      book.title = item_page.search("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
+      book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub(/[()]/, "") #provides series
+      book.rating = item_page.search("span.average").text #average rating
+      book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
+      #blurb needs work
+      book.blurb = item_page.xpath('//span[starts-with(@id, "freeText")]')[1].text#.gsub(/\s+/, " ") #grab the blurb
+      book.wrap_blurb #line wrap for our blurb
+      #we will scrape the top two genre entries, but when we want to check if one is a more specific form of the other
+      genre_one = item_page.search("div.bigBoxContent div.elementList div.left")[0].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil} # turn the first genre into a stripped array of actual content
+      book.genre_one = ""
+      genre_one.each {|i| book.genre_one << i}
+      genre_two = item_page.search("div.bigBoxContent div.elementList div.left")[1].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil}
+      book.genre_two = ""
+      genre_two.each {|i| book.genre_two << i}
     else #instead of a raising a nobook error that will break the looping, let's flag the book as incomplete and not display it at the end
       book.completable = false
     end
-    book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
-    #how do we handle no_series, and can we tidy the code?
-    book.title = item_page.search("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
-    book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub(/[()]/, "") #provides series
-    book.rating = item_page.search("span.average").text #average rating
-    book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
-    #blurb needs work
-    book.blurb = item_page.xpath('//span[starts-with(@id, "freeText")]')[1].text#.gsub(/\s+/, " ") #grab the blurb
-    book.wrap_blurb #line wrap for our blurb
-    #we will scrape the top two genre entries, but when we want to check if one is a more specific form of the other
-    genre_one = item_page.search("div.bigBoxContent div.elementList div.left")[0].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil} # turn the first genre into a stripped array of actual content
-    book.genre_one = ""
-    genre_one.each {|i| book.genre_one << i}
-    genre_two = item_page.search("div.bigBoxContent div.elementList div.left")[1].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil}
-    book.genre_two = ""
-    genre_two.each {|i| book.genre_two << i}
   end
 
 end
