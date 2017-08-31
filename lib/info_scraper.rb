@@ -4,7 +4,7 @@ require_relative "EbookDealInfo"
 class InfoScraper
 
   def info_scrape(book) #for each instance of book in the class collection, go get blurb, series, gr rating/rates and add them to that instance; also author to deal with last name only from scrape?
-    search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\A|\s)\S\s/,"").gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
+    search_string = "#{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")} #{book.title}".gsub(/(\A|\s)\S\s/,"").gsub(/:/,"").gsub(/(\W)+/, "+") #turns the author + title into a usable goodreads search string
           #should remove anything joining multiple authors ("&", ",") that would break the search
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
