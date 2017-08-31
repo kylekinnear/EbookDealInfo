@@ -32,13 +32,13 @@ class Controller
   def interact
     input = nil
     while %w[e exit q quit n no].include?(input) == false
-      puts "Enter the number of the book you'd like more information about."
+      puts "----------------------------------------------------------------------------\nEnter the number of the book you'd like more information about."
       puts "You can type list to list the books again or type quit to leave."
       input = gets.strip.downcase
 
       if input.to_i > 0
         chosen_book = Book.all[input.to_i-1]
-        puts "#{chosen_book.title}"
+        puts "----------------------------------------------------------------------------\n#{chosen_book.title}"
         puts "#{chosen_book.series}" if chosen_book.series.size > 0
         puts "By #{chosen_book.author}"
         if chosen_book.price.size > 0
@@ -54,17 +54,17 @@ class Controller
           puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
         end
         puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book.rating}"
-        puts "#{chosen_book.wrap_blurb}" #line wrap our blurb
+        puts "----------------------------------------------------------------------------\n#{chosen_book.wrap_blurb}" #line wrap our blurb
       elsif input == "list"
         list_books
-      else
+      elsif %w[e exit q quit n no].include?(input) == false
         puts "Sorry, I couldn't understand that. Please enter a number, list, or quit."
       end
     end
   end
 
   def exeunt
-    puts "Check back later for more ebook deals."
+    puts "----------------------------------------------------------------------------\nCheck back later for more ebook deals."
   end
 
 
