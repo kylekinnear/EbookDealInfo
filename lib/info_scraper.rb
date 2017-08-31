@@ -11,7 +11,7 @@ class InfoScraper
       item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a").attribute("href").value}",'User-Agent' => 'Ruby').read)
       book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
       #how do we handle no_series, and can we tidy the code?
-      book.title = item_page.search("h1#bookTitle.bookTitle").text.reverse.strip.reverse.lines.first.chomp #goodreads provides better titles, can we clean?
+      book.title = item_page.search("h1#bookTitle.bookTitle").text.strip #goodreads provides better titles
       book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub(/[()]/, "") #provides series
       book.rating = item_page.search("span.average").text #average rating
       book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
