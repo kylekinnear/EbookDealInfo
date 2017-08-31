@@ -21,7 +21,7 @@ class Controller
     #the main menu
     puts "A list of the latest deals:"
     Book.all.reject {|book| book.completable == false}.each_with_index(1) do |book, index| #make this ignore books that are completable = false
-      puts "#{index}. #{book.title} - #{book.author} - #{book.genre}"
+      puts "#{index}. #{book.title} - #{book.author} - #{book.genre_one}"
     end
 
     interact
