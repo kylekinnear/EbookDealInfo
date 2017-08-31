@@ -20,7 +20,7 @@ class Controller
   def list_books
     #the main menu
     puts "A list of the latest deals:"
-    puts "#{Book.all.detect {|i| i.completable == false}.size} book(s) failed to load. Probably a spelling or selector error."
+    puts "#{Book.all.select {|i| i.completable == false}.size} book(s) failed to load. Probably a spelling or selector error."
     Book.all.reject {|book| book.completable == false}.each_with_index do |book, index| #make this ignore books that are completable = false
       puts "#{index+1}. #{book.title} - #{book.author} - #{book.genre_one}"
     end
@@ -53,7 +53,7 @@ class Controller
         else
           puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
         end
-        puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book_rating}"
+        puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book.rating}"
         puts "#{chosen_book.blurb.wrap_blurb}" #line wrap our blurb
       elsif input == "list"
         list_books

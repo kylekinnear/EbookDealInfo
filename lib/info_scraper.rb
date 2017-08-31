@@ -23,12 +23,12 @@ class InfoScraper
         book.genre_one = "No genre listed"
         book.genre_two = ""
       else
-        genre_one = item_page.search("div.bigBoxContent div.elementList div.left")[0].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil} # turn the first genre into a stripped array of actual content
+        genre_one = item_page.search("div.bigBoxContent div.elementList div.left")[0].text.split("\n").map {|i| i.strip if i.strip.size > 0}.reject {|i| i==nil} # turn the first genre into a stripped array of actual content
         book.genre_one = ""
-        genre_one.each {|i| book.genre_one << i}
-        genre_two = item_page.search("div.bigBoxContent div.elementList div.left")[1].text.split("\n").map {|i| i.strip}.map {|i| i if i.size > 0}.reject {|i| i == nil}
+        genre_one.each {|i| book.genre_one << "#{i} "}
+        genre_two = item_page.search("div.bigBoxContent div.elementList div.left")[1].text.split("\n").map {|i| i.strip if i.strip.size > 0}.reject {|i| i==nil}
         book.genre_two = ""
-        genre_two.each {|i| book.genre_two << i}
+        genre_two.each {|i| book.genre_two << "#{i} "}
       end
     else #instead of a raising a nobook error that will break the looping, let's flag the book as incomplete and not display it at the end
       book.completable = false
