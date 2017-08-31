@@ -38,7 +38,7 @@ class Controller
       puts "You can type list to list the books again or type quit to leave."
       input = gets.strip.downcase
 
-      if input.to_i > 0
+      if input.to_i > 0 && input.to_i <= completed_books.size
         chosen_book = @completed_books[input.to_i-1]
         puts "----------------------------------------------------------------------------\n#{chosen_book.title}"
         puts "#{chosen_book.series}" if chosen_book.series.size > 0
