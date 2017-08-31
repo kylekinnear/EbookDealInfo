@@ -21,7 +21,9 @@ class Controller
     #the main menu
     puts "A list of the latest deals:"
     puts "#{Book.all.select {|i| i.completable == false}.size} book(s) failed to load. Probably a spelling or selector error."
-    Book.all.reject {|book| book.completable == false}.each_with_index do |book, index| #make this ignore books that are completable = false
+    completed_books = []
+    Book.all.each {|book| completed_books << book if book.completable == true}
+    completed_books.each do |book|
       puts "#{index+1}. #{book.title} - #{book.author} - #{book.genre_one}"
     end
 
