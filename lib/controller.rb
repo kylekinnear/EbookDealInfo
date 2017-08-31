@@ -54,7 +54,7 @@ class Controller
           puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
         end
         puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book.rating}"
-        puts "#{chosen_book.blurb.wrap_blurb}" #line wrap our blurb
+        puts "#{chosen_book.wrap_blurb}" #line wrap our blurb
       elsif input == "list"
         list_books
       else
