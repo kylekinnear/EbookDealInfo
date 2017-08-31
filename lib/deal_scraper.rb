@@ -24,6 +24,7 @@ class DealScraper
             puts "Loaded book ##{index+1} of 25"
           else
             Book.create("","","",0)
+          end
         end
       end
     end

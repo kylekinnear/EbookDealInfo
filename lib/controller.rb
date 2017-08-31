@@ -2,9 +2,9 @@
 require_relative "EbookDealInfo"
 
 class Controller
+  attr_accessor :completed_books
 
   def call
-    #functionality?
     welcome #call the intro message
   end
 
@@ -12,8 +12,10 @@ class Controller
     #intro message
     puts "Welcome to the Ebook Recent Deal Info Getter"
     puts "Getting the latest deals (this may take a while)"
-    puts "-----------------------------------------"
+    puts "----------------------------------------------------------------------------"
     DealScraper.new.scrape #call DealScraper, and through it instantiate books and call info_scraper on the books
+    @completed_books = [] #we'll use this to avoid interacting with bad scrapes
+    Book.all.each {|book| @completed_books << book if book.completable == true}
     list_books #main menu
   end
 
@@ -21,9 +23,7 @@ class Controller
     #the main menu
     puts "A list of the latest deals:"
     puts "#{Book.all.select {|i| i.completable == false}.size} book(s) failed to load. Probably a spelling or selector error."
-    completed_books = []
-    Book.all.each {|book| completed_books << book if book.completable == true}
-    completed_books.each do |book|
+    @completed_books.each_with_index do |book, index|
       puts "#{index+1}. #{book.title} - #{book.author} - #{book.genre_one}"
     end
 
@@ -39,7 +39,7 @@ class Controller
       input = gets.strip.downcase
 
       if input.to_i > 0
-        chosen_book = Book.all[input.to_i-1]
+        chosen_book = @completed_books[input.to_i-1]
         puts "----------------------------------------------------------------------------\n#{chosen_book.title}"
         puts "#{chosen_book.series}" if chosen_book.series.size > 0
         puts "By #{chosen_book.author}"
@@ -68,6 +68,5 @@ class Controller
   def exeunt
     puts "----------------------------------------------------------------------------\nCheck back later for more ebook deals."
   end
-
 
 end

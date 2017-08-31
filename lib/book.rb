@@ -6,7 +6,7 @@ class Book
   @@all = [] #collection to push all new books into
 
   def initialize(author, title, price, good_scrape=1)
-    if good_scrape = 1
+    if good_scrape == 1
       @@all << self #push new books
       @author = author
       @title = title
