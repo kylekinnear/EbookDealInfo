@@ -17,7 +17,7 @@ class DealScraper
           puts "Loaded book ##{index+1} of 25"
         else #for posts formatted "~Title~ by ~author~ (~Price~)"
           if post.search("p.title").text.slice(/\s([Bb]y)/) != nil #ignore wacky formatted posts
-            author = post.search("p.title").text.split("by")[1].slice(/\A[^(,$\/]+/).split(". Kindle")[0].strip
+            author = post.search("p.title").text.split("by")[1].slice(/\A[^(,$\/]+/).split(". Kindle")[0].split("-- Kindle").strip
             title = post.search("p.title").text.split("by").first.gsub(/\W+\z/, "").strip
             price = post.search("p.title").text.slice(/[$]\d+[.]\d+/).strip #can't handle free books
             Book.create(author, title, price)
