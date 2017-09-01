@@ -1,5 +1,5 @@
-""#this is the goodreads scraper
-require_relative "EbookDealInfo"
+#this is the goodreads scraper
+#require_relative "EbookDealInfo"
 
 class InfoScraper
 

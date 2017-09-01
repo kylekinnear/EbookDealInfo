@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "EbookDealInfo/version"
+require "ebookdealinfo/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "EbookDealInfo"
+  spec.name          = "ebookdealinfo"
   spec.version       = EbookDealInfo::VERSION
   spec.authors       = ["kylek"]
   spec.email         = ["27875726+kylekinnear@users.noreply.github.com"]
 
-  spec.summary       = %q{Grabs daily ebook deals and gets goodreads info about them.}
+  spec.summary       = "Grabs daily ebook deals and gets goodreads info about them."
   spec.homepage      = "https://github.com/kylekinnear/ebook-deal-info"
   spec.license       = "MIT"
 
@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "pry"
 
-  spec.add_dependency "nokogiri"
+  spec.add_dependency "nokogiri", "~> 1.8"
 end

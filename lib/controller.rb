@@ -1,5 +1,5 @@
 #this class is called by the cli and handles outputs, menus
-require_relative "EbookDealInfo"
+#require_relative "EbookDealInfo"
 
 class Controller
   attr_accessor :completed_books

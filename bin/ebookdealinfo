@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative "../lib/EbookDealInfo.rb"
+require_relative "../lib/ebookdealinfo.rb"
 
 Controller.new.call
