@@ -53,7 +53,7 @@ class Controller
         elsif chosen_book.genre_one == "No genre listed"
           puts "This book doesn't have a genre listing"
         else
-          puts "Shelved as #{chosen_book.genre_one} and #{chosen_book.genre_two}"
+          puts "Shelved as #{chosen_book.genre_one} #{"and #{chosen_book.genre_two}" if chosen_book.genre_two.size > 0}"
         end
         puts "#{chosen_book.rates} people gave this book an average rating of #{chosen_book.rating}"
         puts "----------------------------------------------------------------------------\n#{chosen_book.wrap_blurb}" #line wrap our blurb
