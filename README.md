@@ -1,18 +1,8 @@
-# ebookeealinfo
+# ebookdealinfo
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/EbookDealInfo`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ebookdealinfo'
-```
-
-And then execute:
-
-    $ bundle
 
 Or install it yourself as:
 
@@ -20,7 +10,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Reddit /r/Ebookdeals will be scraped for a list of ebooks with current deals and then goodreads will be scraped to get more information about those books. You can then select a book from the menu to get detailed information about it.
 
 ## Development
 
