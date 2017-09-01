@@ -4,9 +4,7 @@ Welcome to your new gem! In this directory, you'll find the files you need to be
 
 ## Installation
 
-Or install it yourself as:
-
-    $ gem install EbookDealInfo
+    $ gem install ebookdealinfo
 
 ## Usage
 
