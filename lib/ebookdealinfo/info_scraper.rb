@@ -5,7 +5,6 @@ class InfoScraper
 
   def info_scrape(book) #for each instance of book in the class collection, go get blurb, series, gr rating/rates and add them to that instance; also author to deal with last name only from scrape?
     search_string = "#{book.title} #{book.author.gsub(".", ". ").gsub(/[^\w\s]/,"")}".gsub(/(\A|\s)\S\s/," ").gsub(/[^a-zA-Z0-9']+/, "+") #turns the author + title into a usable goodreads search string
-          #should remove anything joining multiple authors ("&", ",") that would break the search
     search_page = Nokogiri::HTML(open("https://www.goodreads.com/search?q=#{search_string}&search_type=books",'User-Agent' => 'Ruby')) #uses the search string to pull an item's goodreads page
     if search_page.css("table a").size != 0
       determinant = search_page.css("span.minirating").map.with_index {|i,index| [index, i.text.strip.slice(/\s(\d|,)+/).strip.gsub(",","").to_i]}.sort! {|x,y| x[1].to_i <=> y[1].to_i}.last #the search result with the most rates (and presumably most legitimate) is an array [result_index, #rates]
