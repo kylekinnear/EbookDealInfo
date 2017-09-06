@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["27875726+kylekinnear@users.noreply.github.com"]
 
   spec.summary       = "Grabs daily ebook deals and gets goodreads info about them."
-  spec.homepage      = "https://github.com/kylekinnear/ebook-deal-info"
+  spec.homepage      = "https://github.com/kylekinnear/ebookdealinfo"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
