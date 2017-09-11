@@ -10,7 +10,7 @@ class InfoScraper
       determinant = search_page.css("span.minirating").map.with_index {|i,index| [index, i.text.strip.slice(/\s(\d|,)+/).strip.gsub(",","").to_i]}.sort! {|x,y| x[1].to_i <=> y[1].to_i}.last #the search result with the most rates (and presumably most legitimate) is an array [result_index, #rates]
       item_page = Nokogiri::HTML(open("https://goodreads.com/#{search_page.css("table a.bookTitle")[determinant[0]].attribute("href").value}",'User-Agent' => 'Ruby').read)
       book.author = item_page.search("div#bookAuthors.stacked span :not(.greyText) :not(.smallText)").text #gets the complete author name since reddit might not provide it
-      book.title = item_page.search("h1#bookTitle.bookTitle").text.slice(/^(\n).+(\S\n)/).strip #goodreads provides better titles
+      book.title = item_page.search("h1#bookTitle.bookTitle").text.slice(/^(\n).+(.\n)/).strip #goodreads provides better titles
       book.series = item_page.search("h1#bookTitle.bookTitle :first-child").text.strip.gsub(/[()]/, "") #provides series
       book.rating = item_page.search("span.average").text #average rating
       book.rates = item_page.search("span.votes.value-title").text.strip #number of ratings
