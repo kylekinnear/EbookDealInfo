@@ -17,7 +17,7 @@ class DealScraper
         else #for posts formatted "~Title~ by ~author~ (~Price~)"
           if post.search("p.title").text.slice(/[,.-[ ]]([Bb]y)/) != nil #ignore wacky formatted posts
             if post.search("p.title").text.scan(/(\s[Bb][Yy]\s)/).size > 1 #count instances of "by"; if the title includes a "by" we can't parse it
-              puts "Unable to load book ##{index+1} of #{deals.search("div.link").size}. Probably a bad post name."
+              puts "Unable to load book ##{index+1} of #{deals.search("div.link").size}. The title includes the word 'by'."
               Book.create("","","",0)
             else
               author = post.search("p.title").text.gsub(/(\s[Bb][Yy]\s)/, " by ").split("by")[1].strip.slice(/\A[^(,$\/]+/).split(". Kindle")[0].split("-- Kindle")[0].strip
